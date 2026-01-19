@@ -5,12 +5,15 @@
    - Database connection pool
    - Kafka producer
    - Parser consumer
-   - Simulator (optional)"
+   - Simulator (optional)
+   - HTTP API server"
   (:require [datapet.config :as config]
             [datapet.storage.db :as db]
             [datapet.kafka.producer :as producer]
             [datapet.parser.core :as parser]
             [datapet.simulator.core :as simulator]
+            [datapet.api.server :as api-server]
+            [datapet.api.routes :as api-routes]
             [clojure.tools.logging :as log])
   (:gen-class))
 
@@ -39,6 +42,10 @@
     (log/info "Starting simulator...")
     (simulator/start! config))
 
+  ;; Start HTTP API server
+  (log/info "Starting HTTP API server...")
+  (api-server/start! config (api-routes/create-app))
+
   (log/info "DataPet started successfully!")
   (log/info "Logs will be stored in Postgres and can be queried via the API"))
 
@@ -48,6 +55,7 @@
   (log/info "Stopping DataPet...")
 
   ;; Stop in reverse order
+  (api-server/stop!)
   (simulator/stop!)
   (parser/stop!)
   (producer/stop!)
