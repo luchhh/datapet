@@ -1,0 +1,23 @@
+# Clojure
+.cpcache/
+target/
+.nrepl-port
+*.jar
+
+# Editor/IDE
+.lsp/
+.clj-kondo/
+.idea/
+*.iml
+.vscode/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/
